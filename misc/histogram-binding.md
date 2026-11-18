@@ -1,6 +1,6 @@
 # Binding vanilla Prio3Histogram to an external commitment
 
-The experimental [histogram commitment-binding profile](../../draft-vdaf-commitment-bound-histogram/draft-chris-vdaf-commitment-bound-histogram.md)
+The experimental [DAP histogram commitment-binding profile](../../draft-vdaf-commitment-bound-histogram/draft-chris-dap-histogram-commitment.md)
 uses ordinary Field128 Prio3Histogram with one proof, its existing one-hot
 validity circuit, input-share format, and algorithm ID `0x00000004`. It does
 not extend the measurement or the VDAF proof.
@@ -26,11 +26,14 @@ standalone index share is not sufficient.
 This point check is outside the base VDAF interface's `verify_init` /
 `verify_next` operations. The Leader's point accompanies its verifier share
 in the existing one-round preparation request; the Helper verifies and
-returns its point with the verifier message in the existing response.
-The point fields and the Moderator's authenticated assertion accepting the
+returns its point with the verifier message in a versioned DAP response.
+The point exchange and the Moderator's authenticated assertion accepting the
 combined MOLE presentation and DAP report are proposed DAP integration,
-not existing DAP behavior. The VDAF algorithm ID stays `0x00000004`, while
-the application protocol and DAP extensions need distinct versioning.
+not existing DAP behavior. DAP has an aggregation-job request extension for
+the Leader's point, but no aggregation-job response extension for the
+Helper's point. The [companion DAP proposal](../../draft-vdaf-commitment-bound-histogram/draft-chris-dap-histogram-commitment.md)
+therefore specifies a versioned response format rather than changing the
+Prio3 verifier message. The VDAF algorithm ID stays `0x00000004`.
 
 A corrupt aggregator can forge a commitment-check point; both aggregators
 must run the check honestly for report integrity. One non-colluding aggregator
